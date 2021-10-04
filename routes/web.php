@@ -23,7 +23,12 @@ Route::get('/', function () {
 Route::get('/dashboard', function () {
 
 	$when = Carbon::now()->addSeconds(10);
-   	User::find(1)->notify((new TaskCompleted)->delay($when));
+   	// User::find(1)->notify((new TaskCompleted)->delay($when));
+	
+	$user = User::find(1);
+	Notification::route('mail', 'taylor@example.com')
+            ->notify(new TaskCompleted($user));
+
 
    	// SEND NOTIFICATION VIA FACADE
    	// $users = User::find(1);
