@@ -2,6 +2,7 @@
 
 use App\Models\User;
 use App\Notifications\TaskCompleted;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -21,11 +22,12 @@ Route::get('/', function () {
 
 Route::get('/dashboard', function () {
 
-   	// User::find(1)->notify(new TaskCompleted);
+	$when = Carbon::now()->addSeconds(10);
+   	User::find(1)->notify((new TaskCompleted)->delay($when));
 
    	// SEND NOTIFICATION VIA FACADE
-   	$users = User::find(1);
-   	Notification::send($users, new TaskCompleted());
+   	// $users = User::find(1);
+   	// Notification::send($users, new TaskCompleted());
 
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
